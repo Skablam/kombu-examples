@@ -13,7 +13,6 @@ def process_message(body, message):
     print("The body is {}".format(body))
     message.ack()
 
-consumer = Consumer(conn, queues=queue, callbacks=[process_message], accept=["text/plain"])
-consumer.consume()
 
-conn.drain_events(timeout=2)
+with Consumer(conn, queues=queue, callbacks=[process_message], accept=["text/plain"]):
+    conn.drain_events(timeout=2)
